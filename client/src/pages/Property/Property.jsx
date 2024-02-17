@@ -15,6 +15,7 @@ import BookingModal from '../../components/BookingModal/BookingModal';
 import UserDetailContext from '../../context/UserDetailContext';
 import { Button } from '@mantine/core';
 import { toast } from 'react-toastify';
+import Heart from '../../components/Heart/Heart';
 
 const Property = ({ card }) => {
     const { pathname } = useLocation();
@@ -66,7 +67,7 @@ const Property = ({ card }) => {
         <div className='wrapper'>
             <div className="flexColStart paddings innerWidth property-container">
                 <div className="like">
-                    <AiFillHeart size={24} color="white" />
+                    <Heart id={id} />
                 </div>
                 <img src={data?.image} alt="home image" />
                 <div className='flexCenter property-details'>
@@ -134,15 +135,15 @@ const Property = ({ card }) => {
                             email={user?.email}
                         />
                     </div>
+                    <div className="map">
+                        <Map
+                            address={data?.address}
+                            city={data?.city}
+                            country={data?.country}
+                        />
+                    </div>
                 </div>
 
-                <div className="map">
-                    <Map
-                        address={data?.address}
-                        city={data?.city}
-                        country={data?.country}
-                    />
-                </div>
             </div>
         </div>
 
