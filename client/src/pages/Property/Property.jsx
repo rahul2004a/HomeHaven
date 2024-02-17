@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Property.css';
 import { useLocation } from 'react-router-dom';
-import { useQuery } from "react-query";
-import { getProperty } from '../../utils/api';
+import { useMutation, useQuery } from "react-query";
+import { getProperty, removeBooking } from '../../utils/api';
 import { PuffLoader } from "react-spinners";
 import { AiFillHeart } from "react-icons/ai";
 import { FaShower } from "react-icons/fa";
 import { AiTwotoneCar } from "react-icons/ai";
 import { MdLocationPin, MdMeetingRoom } from "react-icons/md";
 import Map from '../../components/Map/Map';
+import useAuthCheck from '../../hooks/useCheckAuth';
+import { useAuth0 } from '@auth0/auth0-react';
+import BookingModal from '../../components/BookingModal/BookingModal';
+import UserDetailContext from '../../context/UserDetailContext';
+import { Button } from '@mantine/core';
+import { toast } from 'react-toastify';
 
 const Property = ({ card }) => {
     const { pathname } = useLocation();
@@ -16,7 +22,26 @@ const Property = ({ card }) => {
     const { data, isLoading, isError } = useQuery(["resd", id], () =>
         getProperty(id)
     );
-    console.log(data);
+    const [modalOpened, setModalOpened] = React.useState(false);
+    const { validateLogin } = useAuthCheck();
+    const { user } = useAuth0();
+    const {
+        userDetails: { token, bookings },
+        setUserDetails,
+    } = useContext(UserDetailContext);
+
+    const { mutate: cancelBooking, isLoading: cancelling } = useMutation({
+        mutationFn: () => removeBooking(id, user?.email, token),
+        onSuccess: () => {
+            setUserDetails((prev) => ({
+                ...prev,
+                bookings: prev.bookings.filter((booking) => booking?.id !== id),
+            }));
+
+            toast.success("Booking cancelled", { position: "bottom-right" });
+        },
+    });
+
     if (isLoading) {
         return (
             <div className="wrapper">
@@ -76,18 +101,51 @@ const Property = ({ card }) => {
                                 {data?.country}
                             </span>
                         </div>
-                        <button className='button'>Book Your Visit</button>
-                    </div>
-                    <div className="map">
-                        <Map
-                            address={data?.address}
-                            city={data?.city}
-                            country={data?.country}
+                        {bookings?.map((booking) => booking.id).includes(id) ? (
+                            <>
+                                <Button
+                                    variant="outline"
+                                    w={"100%"}
+                                    color="red"
+                                    onClick={() => cancelBooking()}
+                                    disabled={cancelling}
+                                >
+                                    <span>Cancel booking</span>
+                                </Button>
+                                <span>
+                                    Your visit already booked for date{" "}
+                                    {bookings?.filter((booking) => booking?.id === id)[0].date}
+                                </span>
+                            </>
+                        ) : (
+                            <button
+                                className="button"
+                                onClick={() => {
+                                    validateLogin() && setModalOpened(true);
+                                }}
+                            >
+                                Book your visit
+                            </button>
+                        )}
+                        <BookingModal
+                            opened={modalOpened}
+                            setOpened={setModalOpened}
+                            propertyId={id}
+                            email={user?.email}
                         />
                     </div>
                 </div>
+
+                <div className="map">
+                    <Map
+                        address={data?.address}
+                        city={data?.city}
+                        country={data?.country}
+                    />
+                </div>
             </div>
         </div>
+
     )
 }
 

@@ -18,5 +18,6 @@ app.listen(PORT, (err, res) => {
     console.log(`Server listening on ${PORT}`);
 });
 
+
 app.use("/api/user", userRoute);
 app.use("/api/residency", residencyRoute);

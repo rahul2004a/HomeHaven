@@ -10,15 +10,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       domain="dev-84lq4qdikixm2nuq.us.auth0.com"
       clientId="TlU13n3aOtluDxKexUCKOZ6kHdee3WaG"
       authorizationParams={{
-        redirect_uri: "http://localhost:5173/"
+        redirect_uri: window.location.origin,
       }}
       audience="http://localhost:8000"
       scope="openid profile email"
     >
-
-
       <App />
-
     </Auth0Provider>
   </React.StrictMode>
 );
