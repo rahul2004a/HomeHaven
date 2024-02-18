@@ -1,13 +1,18 @@
-import React from 'react';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import './Properties.css';
-import useProperties from '../../hooks/useProperties';
+import React, { useContext, useState } from "react";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import useProperties from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
-import PropertyCard from '../../components/PropertyCard/PropertyCard';
-const Properties = () => {
+import PropertyCard from "../../components/PropertyCard/PropertyCard";
+import "../Properties/Properties.css";
+import UserDetailContext from "../../context/UserDetailContext";
+
+const Favourites = () => {
     const { data, isError, isLoading } = useProperties();
-    const [filter, setFilter] = React.useState("");
-    // console.log(data);
+    const [filter, setFilter] = useState("");
+    const {
+        userDetails: { favourites },
+    } = useContext(UserDetailContext);
+
     if (isError) {
         return (
             <div className="wrapper">
@@ -30,12 +35,17 @@ const Properties = () => {
         );
     }
     return (
-        <div className='wrapper'>
+        <div className="wrapper">
             <div className="flexColCenter paddings innerWidth properties-container">
                 <SearchBar filter={filter} setFilter={setFilter} />
+
                 <div className="paddings flexCenter properties">
                     {
+                        // data.map((card, i)=> (<PropertyCard card={card} key={i}/>))
+
                         data
+                            .filter((property) => favourites.includes(property.id))
+
                             .filter(
                                 (property) =>
                                     property.title.toLowerCase().includes(filter.toLowerCase()) ||
@@ -49,7 +59,7 @@ const Properties = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Properties
+export default Favourites;
