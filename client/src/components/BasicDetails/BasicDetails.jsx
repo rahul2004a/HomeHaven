@@ -57,7 +57,7 @@ const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails 
                     <Button variant="default" onClick={prevStep}>
                         Back
                     </Button>
-                    <Button type="submit">
+                    <Button type="submit" style={{ backgroundColor: "#e2ab86" }}>
                         Next step
                     </Button>
                 </Group>

@@ -26,7 +26,7 @@ const Layout = () => {
 
             localStorage.setItem("access_token", token);
             setUserDetails((prev) => ({ ...prev, token: token }));
-            // console.log(token);
+
             return createUser(user?.email, token);
         },
     });

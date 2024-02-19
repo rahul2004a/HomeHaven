@@ -53,7 +53,7 @@ const UploadImage = ({
                 <Button variant="default" onClick={prevStep}>
                     Back
                 </Button>
-                <Button onClick={handleNext} disabled={!imageURL}>
+                <Button onClick={handleNext} disabled={!imageURL} style={{ backgroundColor: "#e2ab86" }}>
                     Next
                 </Button>
             </Group>

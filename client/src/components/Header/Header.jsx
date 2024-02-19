@@ -24,11 +24,11 @@ const Header = () => {
   };
 
   return (
-    <section className="h-wrapper" style={{ background: headerColor }}>
+    <section className="h-wrapper" style={{ background: headerColor, fontWeight: "bold" }}>
       <div className="flexCenter innerWidth paddings h-container">
         {/* logo */}
         <Link to="/">
-          <img src="./logo.png" alt="logo" width={100} />
+          <img src="./logo.png" alt="logo" width={100} height={45} />
         </Link>
 
         {/* menu */}

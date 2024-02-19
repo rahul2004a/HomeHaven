@@ -14,7 +14,7 @@ import {
 } from "react-icons/md";
 import data from "../../utils/accordion.jsx";
 import "./Value.css";
-// Demo styles, see 'Styles' section below for some notes on use.
+
 
 const Value = () => {
   return (
@@ -23,7 +23,7 @@ const Value = () => {
         {/* left side */}
         <div className="v-left">
           <div className="image-container">
-            <img src="./value.png" alt="" />
+            <img src="./home3.jpg" alt="" />
           </div>
         </div>
 
@@ -50,7 +50,7 @@ const Value = () => {
                 <AccordionItem className={`accordionItem ${className}`} uuid={i} key={i}>
                   <AccordionItemHeading>
                     <AccordionItemButton className="flexCenter accordionButton ">
-                        {/* just for getting state of item */}
+                      {/* just for getting state of item */}
                       <AccordionItemState>
                         {({ expanded }) =>
                           expanded

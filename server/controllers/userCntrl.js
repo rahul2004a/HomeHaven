@@ -3,7 +3,6 @@ import { prisma } from "../config/prismaConfig.js";
 
 export const createUser = asyncHandler(async (req, res) => {
 
-    console.log("createing a new user");
     let { email } = req.body;
     const userExists = await prisma.user.findUnique({ where: { email: email } });
 
@@ -18,6 +17,7 @@ export const createUser = asyncHandler(async (req, res) => {
 });
 
 export const bookVisit = asyncHandler(async (req, res) => {
+
     const { email, date } = req.body;
     const { id } = req.params;
 
@@ -46,7 +46,9 @@ export const bookVisit = asyncHandler(async (req, res) => {
 });
 
 export const getAllBookings = asyncHandler(async (req, res) => {
+
     const { email } = req.body;
+
     try {
         const bookings = await prisma.user.findUnique({
             where: { email },
