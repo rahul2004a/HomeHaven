@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import SearchBar from "../SearchBar/SearchBar";
 const Hero = () => {
   return (
-    <section className="hero-wrapper">
+    <section className="hero-wrapper" style={{ backgroundImage: `url("/real3.jpg")` }}>
       <div className="paddings innerWidth flexCenter hero-container">
         {/* left side */}
         <div className="flexColStart hero-left">
